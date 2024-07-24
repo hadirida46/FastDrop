@@ -1,150 +1,351 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delivery Order Page</title>
-    <!-- Local Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Local Leaflet CSS -->
-    <link href="css/leaflet.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        h1 {
-            color: #343a40;
-        }
-        .container {
-            max-width: 1200px;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        #map {
-            width: 100%;
-            height: 100%;
-            min-height: 400px;
-            border-radius: 8px;
-        }
-        .leaflet-popup-content-wrapper {
-            border-radius: 0 !important;
-        }
-        .leaflet-popup-content {
-            font-size: 14px;
-        }
-    </style>
+    <title>welcome page</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="css/noscript.css" />
+    </noscript>
 </head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Create a Delivery Order</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <!-- Form -->
-                <form>
-                    <div class="mb-3">
-                        <label for="customerName" class="form-label">Customer Name</label>
-                        <input type="text" class="form-control" id="customerName" placeholder="Enter your name" required>
+
+<body class="is-preload">
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <div class="logo">
+                <span class="icon fa-gem"></span>
+            </div>
+            <div class="content">
+                <div class="inner">
+                    <h1>Fast Drop</h1>
+                    <p>Delivery is the final art of communication; it's where intent meets execution and transforms into impact.</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#intro">About us</a></li>
+                    <li><a href="#main.html ">Delivery order</a></li>
+                    <li><a href="#contact">Contact uS</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div id="main">
+
+            <!-- Intro -->
+            <article id="intro">
+                <h2 class="major">Intro</h2>
+                <span class="image main"><img src="images/pic01.jpg" alt="" /></span>
+                <p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum
+                    congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut
+                    magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a
+                        href="#work">awesome work</a>.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent
+                    taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique
+                    libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut
+                    ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor.
+                    Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique
+                    senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus.
+                    Pellentesque aliquam maximus risus, vel sed vehicula.</p>
+            </article>
+
+            <!-- Work -->
+            <article id="work">
+                <!-- <a href="main.html"></a> -->
+            </article>
+
+            <!-- About -->
+            <article id="about">
+                <h2 class="major">About</h2>
+                <span class="image main"><img src="images/pic03.jpg" alt="" /></span>
+                <p>Lorem ipsum dolor sit amet, consectetur et adipiscing elit. Praesent eleifend dignissim arcu, at
+                    eleifend sapien imperdiet ac. Aliquam erat volutpat. Praesent urna nisi, fringila lorem et vehicula
+                    lacinia quam. Integer sollicitudin mauris nec lorem luctus ultrices. Aliquam libero et malesuada
+                    fames ac ante ipsum primis in faucibus. Cras viverra ligula sit amet ex mollis mattis lorem ipsum
+                    dolor sit amet.</p>
+            </article>
+
+            <!-- Contact -->
+            <article id="contact">
+                <h2 class="major">Contact</h2>
+                <form method="post" action="#">
+                    <div class="fields">
+                        <div class="field half">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="name" />
+                        </div>
+                        <div class="field half">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" id="email" />
+                        </div>
+                        <div class="field">
+                            <label for="message">Message</label>
+                            <textarea name="message" id="message" rows="4"></textarea>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Delivery Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="Enter your address" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="orderDetails" class="form-label">Order Details</label>
-                        <textarea class="form-control" id="orderDetails" rows="3" placeholder="Enter order details" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit Order</button>
+                    <ul class="actions">
+                        <li><input type="submit" value="Send Message" class="primary" /></li>
+                        <li><input type="reset" value="Reset" /></li>
+                    </ul>
                 </form>
-            </div>
-            <div class="col-md-6">
-                <!-- Map -->
-                <div id="map"></div>
-            </div>
+                <ul class="icons">
+                    <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+                </ul>
+            </article>
+
+            <!-- Elements -->
+            <article id="elements">
+                <h2 class="major">Elements</h2>
+
+
+while (!deck.isInOrder()) {
+    print 'Iteration ' + i;
+    deck.shuffle();
+    i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+                </section>
+
+                <section>
+                    <h3 class="major">Lists</h3>
+
+                    <h4>Unordered</h4>
+                    <ul>
+                        <li>Dolor pulvinar etiam.</li>
+                        <li>Sagittis adipiscing.</li>
+                        <li>Felis enim feugiat.</li>
+                    </ul>
+
+                    <h4>Alternate</h4>
+                    <ul class="alt">
+                        <li>Dolor pulvinar etiam.</li>
+                        <li>Sagittis adipiscing.</li>
+                        <li>Felis enim feugiat.</li>
+                    </ul>
+
+                    <h4>Ordered</h4>
+                    <ol>
+                        <li>Dolor pulvinar etiam.</li>
+                        <li>Etiam vel felis viverra.</li>
+                        <li>Felis enim feugiat.</li>
+                        <li>Dolor pulvinar etiam.</li>
+                        <li>Etiam vel felis lorem.</li>
+                        <li>Felis enim et feugiat.</li>
+                    </ol>
+                    <h4>Icons</h4>
+                    <ul class="icons">
+                        <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                        <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                        <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                        <li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                    </ul>
+
+                    <h4>Actions</h4>
+                    <ul class="actions">
+                        <li><a href="#" class="button primary">Default</a></li>
+                        <li><a href="#" class="button">Default</a></li>
+                    </ul>
+                    <ul class="actions stacked">
+                        <li><a href="#" class="button primary">Default</a></li>
+                        <li><a href="#" class="button">Default</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 class="major">Table</h3>
+                    <h4>Default</h4>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Item One</td>
+                                    <td>Ante turpis integer aliquet porttitor.</td>
+                                    <td>29.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Two</td>
+                                    <td>Vis ac commodo adipiscing arcu aliquet.</td>
+                                    <td>19.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Three</td>
+                                    <td> Morbi faucibus arcu accumsan lorem.</td>
+                                    <td>29.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Four</td>
+                                    <td>Vitae integer tempus condimentum.</td>
+                                    <td>19.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Five</td>
+                                    <td>Ante turpis integer aliquet porttitor.</td>
+                                    <td>29.99</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>100.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <h4>Alternate</h4>
+                    <div class="table-wrapper">
+                        <table class="alt">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Item One</td>
+                                    <td>Ante turpis integer aliquet porttitor.</td>
+                                    <td>29.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Two</td>
+                                    <td>Vis ac commodo adipiscing arcu aliquet.</td>
+                                    <td>19.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Three</td>
+                                    <td> Morbi faucibus arcu accumsan lorem.</td>
+                                    <td>29.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Four</td>
+                                    <td>Vitae integer tempus condimentum.</td>
+                                    <td>19.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Item Five</td>
+                                    <td>Ante turpis integer aliquet porttitor.</td>
+                                    <td>29.99</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>100.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="major">Buttons</h3>
+                    <ul class="actions">
+                        <li><a href="#" class="button primary">Primary</a></li>
+                        <li><a href="#" class="button">Default</a></li>
+                    </ul>
+                    <ul class="actions">
+                        <li><a href="#" class="button">Default</a></li>
+                        <li><a href="#" class="button small">Small</a></li>
+                    </ul>
+                    <ul class="actions">
+                        <li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
+                        <li><a href="#" class="button icon solid fa-download">Icon</a></li>
+                    </ul>
+                    <ul class="actions">
+                        <li><span class="button primary disabled">Disabled</span></li>
+                        <li><span class="button disabled">Disabled</span></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 class="major">Form</h3>
+                    <form method="post" action="#">
+                        <div class="fields">
+                            <div class="field half">
+                                <label for="demo-name">Name</label>
+                                <input type="text" name="demo-name" id="demo-name" value="" placeholder="Jane Doe" />
+                            </div>
+                            <div class="field half">
+                                <label for="demo-email">Email</label>
+                                <input type="email" name="demo-email" id="demo-email" value=""
+                                    placeholder="jane@untitled.tld" />
+                            </div>
+                            <div class="field">
+                                <label for="demo-category">Category</label>
+                                <select name="demo-category" id="demo-category">
+                                    <option value="">-</option>
+                                    <option value="1">Manufacturing</option>
+                                    <option value="1">Shipping</option>
+                                    <option value="1">Administration</option>
+                                    <option value="1">Human Resources</option>
+                                </select>
+                            </div>
+                            <div class="field half">
+                                <input type="radio" id="demo-priority-low" name="demo-priority" checked>
+                                <label for="demo-priority-low">Low</label>
+                            </div>
+                            <div class="field half">
+                                <input type="radio" id="demo-priority-high" name="demo-priority">
+                                <label for="demo-priority-high">High</label>
+                            </div>
+                            <div class="field half">
+                                <input type="checkbox" id="demo-copy" name="demo-copy">
+                                <label for="demo-copy">Email me a copy</label>
+                            </div>
+                            <div class="field half">
+                                <input type="checkbox" id="demo-human" name="demo-human" checked>
+                                <label for="demo-human">Not a robot</label>
+                            </div>
+                            <div class="field">
+                                <label for="demo-message">Message</label>
+                                <textarea name="demo-message" id="demo-message" placeholder="Enter your message"
+                                    rows="6"></textarea>
+                            </div>
+                        </div>
+                        <ul class="actions">
+                            <li><input type="submit" value="Send Message" class="primary" /></li>
+                            <li><input type="reset" value="Reset" /></li>
+                        </ul>
+                    </form>
+                </section>
+
+            </article>
+
         </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+        </footer>
+
     </div>
 
-    <!-- Local Bootstrap JS -->
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <!-- Local Leaflet JS -->
-    <script src="js/leaflet.js"></script>
-    <script>
-        // Initialize map
-        const map = L.map('map').setView([33.89, 35.50], 13); // Centered on San Francisco
+    <!-- BG -->
+    <div id="bg"></div>
 
-        // Load and display tile layers on the map
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+    <!-- Scripts -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/browser.min.js"></script>
+    <script src="js/breakpoints.min.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/main.js"></script>
 
-        let markers = [];
-
-        // Function to add a marker
-        function addMarker(lat, lng, label) {
-            const marker = L.marker([lat, lng], {
-                draggable: true,
-                title: label
-            }).addTo(map)
-            .bindPopup(label)
-            .openPopup();
-
-            marker.on('dragend', () => {
-                const position = marker.getLatLng();
-                marker.setPopupContent(`${label} Location: ${position.lat.toFixed(4)}, ${position.lng.toFixed(4)}`).openPopup();
-                updateRoute();
-            });
-
-            markers.push(marker);
-            return marker;
-        }
-
-        // Function to update route
-        function updateRoute() {
-            if (markers.length === 2) {
-                const source = markers[0].getLatLng();
-                const destination = markers[1].getLatLng();
-                // Remove any existing route
-                if (map._layers.route) {
-                    map.removeLayer(map._layers.route);
-                }
-                // Draw route
-                L.Routing.control({
-                    waypoints: [source, destination],
-                    routeWhileDragging: true,
-                    createMarker: () => { return null; } // Prevent default markers from being added
-                }).addTo(map);
-            }
-        }
-
-        // Map click event to add markers
-        map.on('click', (e) => {
-            if (markers.length >= 2) {
-                alert('Only two markers allowed: Source and Destination.');
-                return;
-            }
-            const label = markers.length === 0 ? 'Source' : 'Destination';
-            addMarker(e.latlng.lat, e.latlng.lng, label);
-            if (markers.length === 2) {
-                updateRoute();
-            }
-        });
-
-        // Form validation
-        document.querySelector('form').addEventListener('submit', function(event) {
-            var customerName = document.getElementById('customerName').value.trim();
-            var address = document.getElementById('address').value.trim();
-            var phone = document.getElementById('phone').value.trim();
-
-            if (!customerName || !address || !phone || markers.length !== 2) {
-                event.preventDefault();
-                alert('Please fill out all required fields and add two markers on the map.');
-            }
-        });
-    </script>
 </body>
+
 </html>
