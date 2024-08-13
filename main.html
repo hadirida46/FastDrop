@@ -1,93 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery Order Page</title>
-    <!-- Local Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- Local Leaflet CSS -->
     <link href="css/leaflet.css" rel="stylesheet">
     <style>
         body {
-            background-color: #97DBD3            ;
+            background: linear-gradient(120deg, #d7e1ec, #ffffff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
         }
-        h1 {
-            color: #3AB3C9;
-        }
+
         .container {
-            max-width: 1200px;
-            background-color: #D8EAEC;
-            padding: 10px;
-            border-radius: 8px;
+            max-width: 900px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            flex-grow: 1;
+            width: 100%;
         }
+
+        h1 {
+            color: #4A90E2;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #4A4A4A;
+        }
+
         #map {
             width: 100%;
-            height: 100%;
-            border-radius: 8px;
+            height: 400px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px solid #4A90E2;
+        }
+
+        .btn-primary {
+            background-color: #50E3C2;
+            border-color: #50E3C2;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2ECC71;
+            border-color: #2ECC71;
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background-color: #F5A623;
+            border-color: #F5A623;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #F39C12;
+            border-color: #F39C12;
+            transform: scale(1.05);
+        }
+
+        .btn:focus {
+            box-shadow: none;
+        }
+
+        footer {
+            background-color: #2C3E50;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        footer p {
+            color: wheat;
+            margin: 0 10px;
+            display: inline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            #map {
+                height: 300px;
+            }
+
+            footer p {
+                display: block;
+                margin: 5px 0;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Create Fast Drop Order</h1>
+    <div class="container">
+        <h1>Create Fast Drop Order</h1>
         <div class="row">
             <div class="col-md-6">
-                <!-- Form -->
-                <form>
+                <form action="submit_order.php" method="post">
                     <div class="mb-3">
-                        <label for="customerName" class="form-label">* Your Name</label>
-                        <input type="text" class="form-control" id="customerName" placeholder="Enter your name" required>
+                        <label for="customerName" class="form-label">* Your Name </label>
+                        <input type="text" class="form-control" id="customerName" name="customerName"
+                            placeholder="Enter your name " required>
                     </div>
                     <div class="mb-3">
-                        <label for="address" class="form-label">* Source Location</label>
-                        <input type="text" class="form-control" id="Source" placeholder="Enter your order source" required>
+                        <label for="source" class="form-label">* Source Location</label>
+                        <input type="text" class="form-control" id="source" name="source"
+                            placeholder="Enter your order source" required>
                     </div>
                     <div class="mb-3">
-                        <label for="address" class="form-label">* Destination Location</label>
-                        <input type="text" class="form-control" id="Destination" placeholder="Enter your order destination" required>
+                        <label for="destination" class="form-label">* Destination Location</label>
+                        <input type="text" class="form-control" id="destination" name="destination"
+                            placeholder="Enter your order destination" required>
                     </div>
                     <div class="mb-3">
                         <label for="orderDetails" class="form-label">Order Details</label>
-                        <textarea class="form-control" id="orderDetails" rows="3" placeholder="Enter order details"></textarea>
+                        <textarea class="form-control" id="orderDetails" name="orderDetails" rows="3"
+                            placeholder="Enter order details"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">* Phone Number</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+                        <input type="tel" class="form-control" id="phone" name="phone"
+                            placeholder="Enter your phone number" required>
                     </div>
+                    <input type="hidden" id="sourceLat" name="sourceLat">
+                    <input type="hidden" id="sourceLng" name="sourceLng">
+                    <input type="hidden" id="destinationLat" name="destinationLat">
+                    <input type="hidden" id="destinationLng" name="destinationLng">
                     <button type="submit" class="btn btn-primary">Submit Order</button>
-                    <button type="reset" class="btn btn-primary">Reset</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
                 </form>
+
             </div>
             <div class="col-md-6">
-                <!-- Map -->
                 <div id="map"></div>
             </div>
         </div>
     </div>
 
-    <!-- Local Bootstrap JS -->
+    <footer>
+        <p>LIU &copy; 2024</p>
+        <p>Student Name: Hadi Rida</p>
+        <p>Instructor Name: Dr. Yara Abdallah</p>
+        <p>Web Programing Project</p>
+    </footer>
+
     <script src="js/bootstrap.bundle.min.js"></script>
-    <!-- Local Leaflet JS -->
     <script src="js/leaflet.js"></script>
     <script>
-        // Initialize map
-        const map = L.map('map').setView([33.8938, 35.5018], 13); // Centered on San Francisco
+        const map = L.map('map').setView([33.8938, 35.5018], 13);
 
-        // Load and display tile layers on the map
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         }).addTo(map);
 
         let markers = [];
+        const sourceIcon = L.icon({
+            iconUrl: 'images/download.png',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30]
+        });
 
-        // Function to add a marker
+        const destinationIcon = L.icon({
+            iconUrl: 'images/images.png',
+            iconSize: [30, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30]
+        });
+
         function addMarker(lat, lng, label) {
+            const icon = label === 'Source' ? sourceIcon : destinationIcon;
             const marker = L.marker([lat, lng], {
                 draggable: true,
-                title: label
+                title: label,
+                icon: icon
             }).addTo(map)
-            .bindPopup(label)
-            .openPopup();
+                .bindPopup(label)
+                .openPopup();
 
             marker.on('dragend', () => {
                 const position = marker.getLatLng();
@@ -99,25 +209,21 @@
             return marker;
         }
 
-        // Function to update route
         function updateRoute() {
             if (markers.length === 2) {
                 const source = markers[0].getLatLng();
                 const destination = markers[1].getLatLng();
-                // Remove any existing route
                 if (map._layers.route) {
                     map.removeLayer(map._layers.route);
-                }   
-                // Draw route
+                }
                 L.Routing.control({
-                    waypoints: [Source, Destination],
+                    waypoints: [source, destination],
                     routeWhileDragging: true,
-                    createMarker: () => { return null; } // Prevent default markers from being added
+                    createMarker: () => { return null; }
                 }).addTo(map);
             }
         }
 
-        // Map click event to add markers
         map.on('click', (e) => {
             if (markers.length >= 2) {
                 alert('Only two markers allowed: Source and Destination.');
@@ -130,17 +236,30 @@
             }
         });
 
-        // Form validation
-        document.querySelector('form').addEventListener('submit', function(event) {
-            var customerName = document.getElementById('customerName').value.trim();
-            var address = document.getElementById('address').value.trim();
-            var phone = document.getElementById('phone').value.trim();
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const customerName = document.getElementById('customerName').value.trim();
+            const source = document.getElementById('source').value.trim();
+            const destination = document.getElementById('destination').value.trim();
+            const phone = document.getElementById('phone').value.trim();
 
-            if (!customerName || !Source || !Destination || !phone || markers.length !== 2) {
+            if (!customerName || !source || !destination || !phone || markers.length !== 2) {
                 event.preventDefault();
                 alert('Please fill out all required fields and add two markers on the map.');
+                return;
             }
+
+            const sourceLatLng = markers[0].getLatLng();
+            const destinationLatLng = markers[1].getLatLng();
+            document.getElementById('sourceLat').value = sourceLatLng.lat;
+            document.getElementById('sourceLng').value = sourceLatLng.lng;
+            document.getElementById('destinationLat').value = destinationLatLng.lat;
+            document.getElementById('destinationLng').value = destinationLatLng.lng;
+
         });
+
+
+
     </script>
 </body>
+
 </html>

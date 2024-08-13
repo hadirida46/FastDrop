@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .btn-logout {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <button class="btn btn-logout" onclick="window.location.href='logout.php'">Logout</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Source Location</th>
+                    <th>Destination Location</th>
+                    <th>Order Details</th>
+                    <th>Phone Number</th>
+                    <th>Source Latitude</th>
+                    <th>Source Longitude</th>
+                    <th>Destination Latitude</th>
+                    <th>Destination Longitude</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody id="orderTableBody">
+                <!-- Data will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function loadOrders() {
+            try {
+                const response = await fetch('fetch_orders.php');
+                const orders = await response.json();
+                const tableBody = document.getElementById('orderTableBody');
+                tableBody.innerHTML = orders.map(order => `
+                    <tr>
+                        <td>${order.id}</td>
+                        <td>${order.customer_name}</td>
+                        <td>${order.source_location}</td>
+                        <td>${order.destination_location}</td>
+                        <td>${order.order_details || ''}</td>
+                        <td>${order.phone_number}</td>
+                        <td>${order.source_lat}</td>
+                        <td>${order.source_lng}</td>
+                        <td>${order.destination_lat}</td>
+                        <td>${order.destination_lng}</td>
+                        <td>${order.created_at}</td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading orders:', error);
+            }
+        }
+        
+        loadOrders();
+    </script>
+</body>
+</html>
