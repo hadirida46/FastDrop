@@ -5,36 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
+            background-color: #f8f9fa;
         }
 
         .container {
             max-width: 1200px;
             margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
         table {
             width: 100%;
             margin-top: 20px;
+            border-collapse: collapse;
         }
 
         th, td {
-            padding: 15px;
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: #f4f4f4;
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+            margin: 2px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-edit {
+            background-color: #28a745;
+        }
+
+        .btn-edit:hover {
+            background-color: #218838;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
         }
 
         .btn-logout {
             background-color: #e74c3c;
-            border-color: #e74c3c;
             color: #fff;
             font-weight: 600;
             border-radius: 5px;
@@ -47,6 +82,20 @@
 
         .btn-logout:hover {
             background-color: #c0392b;
+        }
+
+        .edit-form {
+            display: none;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+
+        .edit-form label {
+            display: block;
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -63,17 +112,24 @@
                     <th>Destination Location</th>
                     <th>Order Details</th>
                     <th>Phone Number</th>
-                    <th>Source Latitude</th>
-                    <th>Source Longitude</th>
-                    <th>Destination Latitude</th>
-                    <th>Destination Longitude</th>
-                    <th>Created At</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="orderTableBody">
-                <!-- Data will be populated by JavaScript -->
-            </tbody>
+            <tbody id="orderTableBody"></tbody>
         </table>
+        <div class="edit-form" id="editForm">
+            <h3>Edit Order</h3>
+            <form id="editOrderForm">
+                <input type="hidden" id="editOrderId">
+                <label>Customer Name: <input type="text" id="editCustomerName"></label>
+                <label>Source Location: <input type="text" id="editSourceLocation"></label>
+                <label>Destination Location: <input type="text" id="editDestinationLocation"></label>
+                <label>Order Details: <input type="text" id="editOrderDetails"></label>
+                <label>Phone Number: <input type="text" id="editPhoneNumber"></label>
+                <button type="button" onclick="updateOrder()">Save Changes</button>
+                <button type="button" onclick="hideEditForm()">Cancel</button>
+            </form>
+        </div>
     </div>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script>
@@ -90,18 +146,77 @@
                         <td>${order.destination_location}</td>
                         <td>${order.order_details || ''}</td>
                         <td>${order.phone_number}</td>
-                        <td>${order.source_lat}</td>
-                        <td>${order.source_lng}</td>
-                        <td>${order.destination_lat}</td>
-                        <td>${order.destination_lng}</td>
-                        <td>${order.created_at}</td>
+                        <td>
+                            <button class="btn btn-edit" onclick="showEditForm(${order.id}, '${order.customer_name}', '${order.source_location}', '${order.destination_location}', '${order.order_details || ''}', '${order.phone_number}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-delete" onclick="deleteOrder(${order.id})">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </td>
                     </tr>
                 `).join('');
             } catch (error) {
                 console.error('Error loading orders:', error);
             }
         }
-        
+
+        function showEditForm(id, customerName, sourceLocation, destinationLocation, orderDetails, phoneNumber) {
+            document.getElementById('editForm').style.display = 'block';
+            document.getElementById('editOrderId').value = id;
+            document.getElementById('editCustomerName').value = decodeURIComponent(customerName);
+            document.getElementById('editSourceLocation').value = decodeURIComponent(sourceLocation);
+            document.getElementById('editDestinationLocation').value = decodeURIComponent(destinationLocation);
+            document.getElementById('editOrderDetails').value = decodeURIComponent(orderDetails);
+            document.getElementById('editPhoneNumber').value = decodeURIComponent(phoneNumber);
+        }
+
+        function hideEditForm() {
+            document.getElementById('editForm').style.display = 'none';
+        }
+
+        async function updateOrder() {
+            const id = document.getElementById('editOrderId').value;
+            const customerName = document.getElementById('editCustomerName').value;
+            const sourceLocation = document.getElementById('editSourceLocation').value;
+            const destinationLocation = document.getElementById('editDestinationLocation').value;
+            const orderDetails = document.getElementById('editOrderDetails').value;
+            const phoneNumber = document.getElementById('editPhoneNumber').value;
+
+            try {
+                const response = await fetch('update_order.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, customer_name: customerName, source_location: sourceLocation, destination_location: destinationLocation, order_details: orderDetails, phone_number: phoneNumber })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Order updated successfully');
+                    hideEditForm();
+                    loadOrders();
+                } else {
+                    alert('Failed to update the order');
+                }
+            } catch (error) {
+                console.error('Error updating order:', error);
+            }
+        }
+
+        async function deleteOrder(orderId) {
+            try {
+                const response = await fetch('delete_order.php?id=' + orderId);
+                const result = await response.json();
+                if (result.success) {
+                    alert('Order deleted successfully');
+                    loadOrders();
+                } else {
+                    alert('Failed to delete the order');
+                }
+            } catch (error) {
+                console.error('Error deleting order:', error);
+            }
+        }
+
         loadOrders();
     </script>
 </body>
